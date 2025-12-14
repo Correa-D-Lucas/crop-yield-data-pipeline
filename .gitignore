@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter notebook checkpoints
+*/.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Data files (ignore generated data, keep reference files)
+data/*
+!data/state_loc.csv
+!data/soil_properties.csv
