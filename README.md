@@ -160,7 +160,7 @@ crop_yield/
 ├── .env
 ├── requirements.txt
 ├── .gitignore
-├── ..env.example
+├── .env.example
 ├── README.md
 └── main.py
 ```
