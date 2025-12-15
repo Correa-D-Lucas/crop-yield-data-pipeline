@@ -18,7 +18,7 @@ def fetch_weather_data(lat: float, lon: float, start: str, end: str) -> pd.DataF
     response = requests.get(url=url, params=params)
     response.raise_for_status()
 
-    print(f"Requesting NASA POWER API:\n{response.url}\n")
+    # print(f"Requesting NASA POWER API:\n{response.url}\n")
 
     parameters = response.json()["properties"]["parameter"]
 
