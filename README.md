@@ -85,10 +85,10 @@ This staged approach keeps the pipeline simple initially while allowing future s
   - Idempotent loads using `TRUNCATE TABLE … RESTART IDENTITY`
 - Secure credential handling using `.env` and `.gitignore`
 - Reusable SQLAlchemy engine function for database connections
+- ETL pipeline for USDA crop yield data
 
 ### 🚧 In Progress
 
-- ETL pipeline for USDA crop yield data
 - Weather ingestion across all U.S. states (looping over locations)
 
 ### 🔜 Planned
@@ -118,6 +118,7 @@ This staged approach keeps the pipeline simple initially while allowing future s
 - Idempotent data loads
 - Environment-based configuration
 - Schema alignment between DataFrames and database tables
+- Git & GitHub (version control, commits, branching, merges)
 
 ### Planned
 - Databricks
