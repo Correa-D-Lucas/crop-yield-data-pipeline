@@ -42,7 +42,7 @@ def load(df: pd.DataFrame):
         password=DB_PASSWORD, 
         host=DB_HOST, 
         port=DB_PORT, 
-        database=DB_NAME)
+        name=DB_NAME)
 
     with engine.begin() as conn:
         conn.execute(text(f"TRUNCATE TABLE {DB_SCHEMA}.{WEATHER_TABLE} RESTART IDENTITY"))
