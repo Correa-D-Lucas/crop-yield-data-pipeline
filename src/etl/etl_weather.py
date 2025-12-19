@@ -5,6 +5,7 @@ from sqlalchemy import text
 
 from src.api.nasa_weather import fetch_weather_data
 from db.engine_call import engine_call
+from src.utils.utils import csv_to_dict
 
 # Load environment variables
 load_dotenv()
@@ -20,10 +21,21 @@ WEATHER_TABLE = os.getenv("WEATHER_TABLE")
 
 
 # Initialize ETL
-def extract(lat: float, lon: float, start: str, end: str) -> pd.DataFrame:
-    """Extract weather data from NASA POWER API"""
-    df = fetch_weather_data(lat, lon, start, end)
-    return df
+def extract(start: str, end: str) -> pd.DataFrame:
+    """Extract weather data for all locations in CSV"""
+    dictionary = csv_to_dict()
+    dfs = []
+
+    for i in dictionary.values():
+        df = fetch_weather_data(
+            lat=i["lat"],
+            lon=i["lon"],
+            start=start,
+            end=end
+        )
+        dfs.append(df)
+
+    return pd.concat(dfs, ignore_index=True)
 
 
 def transform(df: pd.DataFrame) -> pd.DataFrame:
@@ -58,6 +70,6 @@ def load(df: pd.DataFrame):
 
 
 def run_etl_weather():
-    df = extract(lat=38.456085, lon=-92.288368, start="2021", end="2024")
+    df = extract(start="2021", end="2024")
     df = transform(df)
     load(df)
