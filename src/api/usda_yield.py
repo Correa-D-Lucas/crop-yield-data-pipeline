@@ -21,7 +21,6 @@ def fetch_yield(api_key:str, crop:str, start_year:str, end_year:str) -> pd.DataF
     response = requests.get(url=base_url, params=params)
     response.raise_for_status()
 
-    print(f"Requesting USDA NASS API:\n{response.url}\n")
     data = response.json()
 
     df = pd.DataFrame(data["data"])[["year", "commodity_desc", "Value","state_alpha", "state_name"]]
