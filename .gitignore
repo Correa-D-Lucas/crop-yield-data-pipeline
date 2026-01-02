@@ -21,3 +21,4 @@ __pycache__/
 data/*
 !data/state_loc.csv
 !data/soil_properties.csv
+!data/yield_filtered.json
