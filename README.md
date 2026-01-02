@@ -1,5 +1,11 @@
 # Crop Yield Prediction Pipeline (Work in Progress)
 
+### 🚧 In Progress (last update 01/02/2026)
+
+- Redefining API Calls (better performance)
+- Modifying etls load functions - changing ingestion from Postgres to BigQuery
+- Weather ingestion across all U.S. states (looping over locations) 
+
 ## 📌 Project Overview
 
 The goal of this project is to build an **end-to-end data pipeline** that will ultimately support a **machine learning model to predict crop yield across the United States**.
@@ -7,8 +13,9 @@ The goal of this project is to build an **end-to-end data pipeline** that will u
 This repository focuses on building a **solid data engineering foundation**, including:
 - ingesting data from web-based APIs,
 - performing light transformations and data quality checks,
-- storing raw data in a transactional database (PostgreSQL),
-- and preparing the data to be later processed in a data warehouse / lakehouse environment.
+- storing raw data into a Cloud Warehouse (BigQuery),
+- perform Bronze, Silver, Gold modeling, 
+- and preparing the data to later support ML models and dashboards.
 
 This is a **learning and portfolio project**, designed to reflect real-world data workflows rather than a one-off analysis.
 
@@ -21,20 +28,21 @@ This is a **learning and portfolio project**, designed to reflect real-world dat
 1. **Data Sources (Web APIs)**
    - NASA POWER API (weather data)
    - USDA NASS QuickStats API (crop yield data)
+   - Soil Properties (csv)
 
 2. **Ingestion Layer (Python)**
    - API calls return JSON
    - Parsed into Pandas DataFrames
    - Minimal validation and light transformations
 
-3. **OLTP Storage (PostgreSQL)**
-   - Raw tables (`raw` schema)
+3. **Data Warehouse Storage (BigQuery)**
+   - Raw tables (`bronze` schema)
    - Idempotent loads (truncate + reload)
    - Preserves raw structure for traceability
 
-4. **Analytics / Lakehouse Layer (Planned)**
-   - Databricks (Silver layer: heavy transformations)
-   - Gold layer: aggregated datasets for ML and dashboards
+4. **Analytics (Dashboards)**
+   - BigQuery (Silver layer: heavy transformations using dbt)
+   - Gold layer: aggregated datasets for ML and dashboards (using dbt)
 
 5. **Machine Learning (Planned)**
    - Feature engineering
@@ -46,11 +54,12 @@ This is a **learning and portfolio project**, designed to reflect real-world dat
 
 ### NASA POWER API — Weather Data
 
-- Monthly weather observations
+- Daily weather observations
 - Variables currently ingested:
   - Average temperature (°C)
   - Precipitation (mm)
   - Solar radiation
+  - Humidity
 - **Current scope:**  
   Weather data is ingested **one location (latitude/longitude) at a time**
 - **Planned scope:**  
@@ -64,7 +73,7 @@ This staged approach keeps the pipeline simple initially while allowing future s
 
 - Annual crop yield data
 - State-level aggregation
-- Focus on U.S. crops (e.g., corn)
+- Focus on U.S. crops (e.g., corn, soybean, wheat)
 - Returned in JSON format and ingested into Pandas DataFrames
 
 ---
@@ -76,8 +85,10 @@ This staged approach keeps the pipeline simple initially while allowing future s
 - API connections to NASA POWER and USDA NASS
 - JSON → Pandas DataFrame ingestion using `requests` and `pandas`
 - Initial transformations:
-  - year and month extraction
+  - year, month, and day extraction
   - basic filtering and data quality checks
+  
+- ALL BELOW CURRENTLY UNDER UPDATES:
 - PostgreSQL setup:
   - database, schema, and raw tables
 - End-to-end ETL pipeline for weather data:
@@ -87,9 +98,6 @@ This staged approach keeps the pipeline simple initially while allowing future s
 - Reusable SQLAlchemy engine function for database connections
 - ETL pipeline for USDA crop yield data
 
-### 🚧 In Progress
-
-- Weather ingestion across all U.S. states (looping over locations)
 
 ### 🔜 Planned
 
